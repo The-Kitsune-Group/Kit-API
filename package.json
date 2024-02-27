@@ -1,0 +1,25 @@
+{
+  "name": "kit-api",
+  "version": "1.0.0-dev",
+  "description": "Backend for the Kit Discord bot.",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-Kitsune-Group/Kit-API.git"
+  },
+  "author": "jaezudev",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/The-Kitsune-Group/Kit-API/issues"
+  },
+  "homepage": "https://github.com/The-Kitsune-Group/Kit-API#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
