@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      - NODE_ENV: production
+      - NODE_ENV=production
     ports:
       - 8022:8022
     depends_on:
@@ -15,8 +15,8 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+      - MONGO_INITDB_ROOT_USERNAME=${DBUSER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DBPASS}
     volumes:
       - db:/data/db
 

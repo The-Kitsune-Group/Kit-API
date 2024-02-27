@@ -3,9 +3,8 @@ const fs = require('fs');
 const { MongoClient } = require('mongodb');
 
 const {
-	MONGODB_USER: USER,
-	MONGODB_PASSWORD: PASSWORD,
-	MONGODB_PORT: PORT,
+	MONGO_INITDB_ROOT_USERNAME: USER,
+	MONGO_INITDB_ROOT_PASSWORD: PASSWORD,
 } = process.env;
 
 let client;
@@ -13,7 +12,7 @@ let client;
 async function init() {
 	const user = USER;
 	const password = PASSWORD;
-	const port = PORT;
+	const port = 5432;
 
 	await waitPort({
 		host,
@@ -27,7 +26,7 @@ async function init() {
 	return client.connect().then(async () => {
 		console.log(`Connected to database at host ${HOST}`);
 		// Run the SQL instruction to create the table if it does not exist
-		await client.query('CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)');
+		// await client.query('CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)');
 		console.log('Connected to db and created table todo_items if it did not exist');
 	}).catch(err => {
 		console.error('Unable to connect to the database:', err);
