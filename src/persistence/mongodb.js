@@ -5,29 +5,24 @@ const { MongoClient } = require('mongodb');
 const {
 	MONGODB_USER: USER,
 	MONGODB_PASSWORD: PASSWORD,
-	MONGODB_DB: DB,
+	MONGODB_PORT: PORT,
 } = process.env;
 
 let client;
 
 async function init() {
-	const host = HOST_FILE ? fs.readFileSync(HOST_FILE): HOST;
-	const user = USER_FILE ? fs.readFileSync(USER_FILE): USER;
-	const password = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE, 'utf8'): PASSWORD;
-	const database = DB_FILE ? fs.readFileSync(DB_FILE): DB;
+	const user = USER;
+	const password = PASSWORD;
+	const port = PORT;
 
 	await waitPort({
 		host,
-		port: 5432,
+		port: port,
 		timeout: 10000,
 		waitForDns: true,
 	});
 
-	client = new Client({
-		user,
-		password,
-		database
-	});
+	client = new MongoClient(`mongodb://${user}:${password}@mongodb:${port}`);
 
 	return client.connect().then(async () => {
 		console.log(`Connected to database at host ${HOST}`);
@@ -55,7 +50,7 @@ async function getItems() {
 
 // End the connection
 async function teardown() {
-	return client.end().then(() => {
+	return client.close().then(() => {
 		console.log('Client ended');
 	}).catch(err => {
 		console.error('Unable to end client:', err);
