@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const db = require('./persistence');
 const app = express();
 const port = 8022;
 
@@ -23,14 +24,26 @@ app.use(morgan('dev'));
 // Define all routes
 app.get('/bans', getBans);
 app.post('/bans', addBan);
-app.put('/bans/:id', updateBan);
-app.delete('/bans/:id', deleteBan);
-app.get('/settings/:id', getSettings);
-app.post('/settings/:id', addSetting);
-app.put('/settings/:id', updateSetting);
-app.delete('/settings/:id', deleteSetting);
+app.put('/bans/:user', updateBan);
+app.delete('/bans/:user', deleteBan);
+app.get('/settings/:guild', getSettings);
+app.post('/settings/:guild', addSetting);
+app.put('/settings/:guild', updateSetting);
+app.delete('/settings/:guild', deleteSetting);
 
 // droop the snoot
 app.listen(port, () => {
 	console.log(`API listening on port ${port}`);
 });
+
+// Shutdown sequence
+const gracefulShutdown = () => {
+	db.teardown()
+		.catch(() => {})
+		.then(() => process.exit());
+};
+
+// Catch most common shutdown signals
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGUSR2', gracefulShutdown);

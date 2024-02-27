@@ -21,7 +21,7 @@ async function init() {
 		waitForDns: true,
 	});
 
-	client = new MongoClient(`mongodb://${user}:${password}@mongodb:${port}`);
+	client = new MongoClient(`mongodb://${user}:${password}@mongodb:${port}/kit`);
 
 	return client.connect().then(async () => {
 		console.log(`Connected to database at host ${HOST}`);
