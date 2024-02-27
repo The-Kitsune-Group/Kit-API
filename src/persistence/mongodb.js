@@ -33,8 +33,17 @@ async function init() {
 	});
 }
 
+// End the connection
+async function teardown() {
+	return client.close().then(() => {
+		console.log('Client ended');
+	}).catch(err => {
+		console.error('Unable to end client:', err);
+	});
+}
+
 // Get all items from the table
-async function getItems() {
+async function getBans() {
 	return client.query('SELECT * FROM todo_items').then(res => {
 		return res.rows.map(row => ({
 			id: row.id,
@@ -43,16 +52,6 @@ async function getItems() {
 		}));
 	}).catch(err => {
 		console.error('Unable to get items:', err);
-	});
-}
-
-
-// End the connection
-async function teardown() {
-	return client.close().then(() => {
-		console.log('Client ended');
-	}).catch(err => {
-		console.error('Unable to end client:', err);
 	});
 }
 
