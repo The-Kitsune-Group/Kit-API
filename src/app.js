@@ -30,7 +30,7 @@ app.post('/settings/:id', addSetting);
 app.put('/settings/:id', updateSetting);
 app.delete('/settings/:id', deleteSetting);
 
-
+// droop the snoot
 app.listen(port, () => {
 	console.log(`API listening on port ${port}`);
 });
