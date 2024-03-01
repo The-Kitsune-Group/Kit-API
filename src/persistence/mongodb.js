@@ -42,7 +42,7 @@ async function teardown() {
 	});
 }
 
-// Get all items from the table
+// Get bans
 async function getBans() {
 	return client.query('SELECT * FROM todo_items').then(res => {
 		return res.rows.map(row => ({
@@ -52,15 +52,6 @@ async function getBans() {
 		}));
 	}).catch(err => {
 		console.error('Unable to get items:', err);
-	});
-}
-
-// Get one item by id from the table
-async function getItem(id) {
-	return client.query('SELECT * FROM todo_items WHERE id = $1', [id]).then(res => {
-		return res.rows.length > 0 ? res.rows[0]: null;
-	}).catch(err => {
-		console.error('Unable to get item:', err);
 	});
 }
 
