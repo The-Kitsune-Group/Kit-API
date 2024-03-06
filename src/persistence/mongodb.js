@@ -1,5 +1,5 @@
 const waitPort = require('wait-port');
-const fs = require('fs');
+// const fs = require('fs');
 const { MongoClient } = require('mongodb');
 
 const {
@@ -15,7 +15,7 @@ async function init() {
 	const port = 5432;
 
 	await waitPort({
-		host,
+		host: 'localhost',
 		port: port,
 		timeout: 10000,
 		waitForDns: true,
@@ -24,7 +24,6 @@ async function init() {
 	client = new MongoClient(`mongodb://${user}:${password}@mongodb:${port}/kit`);
 
 	return client.connect().then(async () => {
-		console.log(`Connected to database at host ${HOST}`);
 		// Run the SQL instruction to create the table if it does not exist
 		// await client.query('CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)');
 		console.log('Connected to db and created table todo_items if it did not exist');
@@ -42,9 +41,14 @@ async function teardown() {
 	});
 }
 
+async function addBan(user, timestamp) {
+	return user, timestamp;
+}
+
 // Get bans
 async function getBans() {
-	return client.query('SELECT * FROM todo_items').then(res => {
+	return 69;
+	/* client.query('SELECT * FROM todo_items').then(res => {
 		return res.rows.map(row => ({
 			id: row.id,
 			name: row.name,
@@ -52,42 +56,29 @@ async function getBans() {
 		}));
 	}).catch(err => {
 		console.error('Unable to get items:', err);
-	});
+	}); */
 }
 
-// Store one item in the table
-async function storeItem(item) {
-	return client.query('INSERT INTO todo_items(id, name, completed) VALUES($1, $2, $3)', [item.id, item.name, item.completed]).then(() => {
-		console.log('Stored item:', item);
-	}).catch(err => {
-		console.error('Unable to store item:', err);
-	});
+async function deleteBan(user) {
+	// TODO remove userban
+	return user;
 }
 
-// Update one item by id in the table
-async function updateItem(id, item) {
-	return client.query('UPDATE todo_items SET name = $1, completed = $2 WHERE id = $3', [item.name, item.completed, id]).then(() => {
-		console.log('Updated item:', item);
-	}).catch(err => {
-		console.error('Unable to update item:', err);
-	});
+async function getSettings(guild) {
+	// TODO get guildsettings
+	return guild;
 }
 
-// Remove one item by id from the table
-async function removeItem(id) {
-	return client.query('DELETE FROM todo_items WHERE id = $1', [id]).then(() => {
-		console.log('Removed item:', id);
-	}).catch(err => {
-		console.error('Unable to remove item:', err);
-	});
+async function updateSetting(guild, settings) {
+	return guild, settings;
 }
 
 module.exports = {
 	init,
 	teardown,
-	getItems,
-	getItem,
-	storeItem,
-	updateItem,
-	removeItem,
+	addBan,
+	getBans,
+	deleteBan,
+	getSettings,
+	updateSetting,
 };

@@ -23,7 +23,7 @@ app.use(morgan('dev'));
 
 // Define all routes
 app.get('/bans', getBans);
-app.post('/bans', addBan);
+app.post('/bans/:user', addBan);
 app.put('/bans/:user', updateBan);
 app.delete('/bans/:user', deleteBan);
 app.get('/settings/:guild', getSettings);
@@ -39,7 +39,7 @@ app.listen(port, () => {
 // Shutdown sequence
 const gracefulShutdown = () => {
 	db.teardown()
-		.catch(() => {})
+		.catch(() => { return; })
 		.then(() => process.exit());
 };
 
